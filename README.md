@@ -13,6 +13,8 @@ You will need to download the following files (too large for GitHub) and place t
 
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
+# Downloading WRDS
+User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
 ## How to run code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately ten hours to run. Tables and figures will be produced as described below.
@@ -110,5 +112,3 @@ data/public:
 
 Plus put the three downloaded files in this directory.
 
-## Downloading WRDS
-User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
