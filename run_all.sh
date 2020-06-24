@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+# Install Packages
+pip install -r requirements.txt
+
 ## If you are in main directory with run_all.sh
 # you will need to go to code to run everything
 cd code
-# Install Packages
-pip install -r requirements.txt
 
 
 ## Python block
