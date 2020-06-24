@@ -1,6 +1,9 @@
 # Common Ownership in America: 1980-2017 - Backus, Conlon and Sinkinson
 
+
 ## Before running code
+To download the repo simply type:
+git clone https://github.com/chrisconlon/CommonOwnerReplication
 
 You will need to download the following files (too large for GitHub):
 1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
