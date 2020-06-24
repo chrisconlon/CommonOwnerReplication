@@ -1,8 +1,6 @@
-
-
-
 # Step 1: Download Data from WRDS
 # Note: you will need a WRDS account for wrds.Connection() to work
+import pandas as pd
 import wrds
 from our_plot_config import wrds_dir
 from wrds_downloads import clean_wrds, get_names, get_crosswalk 
