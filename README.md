@@ -1,5 +1,15 @@
 # Common Ownership in America: 1980-2017 - Backus, Conlon and Sinkinson
 
+## Before running code
+
+You will need to download the following files (too large for GitHub):
+1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
+2. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
+3. airlines.parquet: Scraped 13F Filings for firms within the airline industry
+
+Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
+
+
 ## How to run code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately ten hours to run. Tables and figures will be produced as described below.
 
@@ -77,21 +87,12 @@ Python (version 3.4 or above) - install dependencies with `pip3 install -r requi
 
 data/public:
 
-manager_consolidations.csv: lists consolidated manager numbers: several manager actually correspond to one
+1. manager_consolidations.csv: lists consolidated manager numbers: several manager actually correspond to one
+2. permno_drops.csv: lists dropped permno IDs with reasons why they are dropped
+3. big4.csv: lists manager Numbers for Blackrock, Fidelity, State Street, and Vanguard
+4. DLE_markups_fig_v2.csv: markups from DeLoecker Eeckhout Unger (QJE 2020)
 
-permno_drops.csv: lists dropped permno IDs with reasons why they are dropped
-
-big4.csv: lists manager Numbers for Blackrock, Fidelity, State Street, and Vanguard
-
-DLE_markups_fig_v2.csv: markups from DeLoecker Eeckhout Unger (QJE 2020)
-
-out_scrape.parquet: Scraped 13F Filings for all high market cap firms
-
-cereal.parquet: Scraped 13F Filings for firms within the cereal industry
-
-airlines.parquet: Scraped 13F Filings for firms within the airline industry
-
-Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
+Plus put the three downloaded files in this directory.
 
 ## Downloading WRDS
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
