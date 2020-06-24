@@ -57,33 +57,45 @@ You will need to provide your own WRDS account.
 
 ## Within-File Dependencies:
 1_Download_WRDS_Data.py: 
-	from wrds_downloads import clean_wrds, get_names, get_crosswalk, get_fundamentals, get_short_interest, get_segments, get_msf, get_s34
+    
+    from wrds_downloads import clean_wrds, get_names, get_crosswalk, get_fundamentals, get_short_interest, get_segments, get_msf, get_s34, 
 	pandas, out
 
 2_Process_WRDS_Data.py
-	from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals, construct_bus_segments, consolidate_mgrs, filter_sp, compute_betas, add_drops, process_scraped, blackrock_fix, add_permno, add_stock_splits, dedup_s34, combine_betas
+    
+    from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals, construct_bus_segments, consolidate_mgrs, filter_sp, compute_betas, add_drops, process_scraped, blackrock_fix, add_permno, add_stock_splits, dedup_s34, combine_betas
+    from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock, check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
 
-	from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock, check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
 3_Calculate_Kappas.py
-	from kappas import process_beta, beta_to_kappa, kappa_in_out, calc_chhis, fix_scrape_cols
-	from investors import compute_investor_info, calc_big4
-	from utilities/quantiles import weighted_quantile
+     
+    from kappas import process_beta, beta_to_kappa, kappa_in_out, calc_chhis, fix_scrape_cols
+    from investors import compute_investor_info, calc_big4
+    from utilities/quantiles import weighted_quantile
 
 
 plots3_big_three_four.py: 
-from kappas import process_beta
-from investors import calc_big4
+
+    from kappas import process_beta
+    from investors import calc_big4
 
 plots5_airlines_cereal.py: 
-from kappas import do_one_period
-from utilities.groupby import applyParallel
 
-plots9_blackrock_vanguard.py: from kappas import beta_to_kappa_merger_breakup
+    from kappas import do_one_period
+    from utilities.groupby import applyParallel
 
-plots10_kappa_comparison_appendix.py: from utilities.matlab_util import coalesce
+plots9_blackrock_vanguard.py: 
+
+    from kappas import beta_to_kappa_merger_breakup
+
+plots10_kappa_comparison_appendix.py: 
+
+    from utilities.matlab_util import coalesce
 
 ## Python  dependencies
-Python (version 3.4 or above) - install dependencies with `pip3 install -r requirements.txt`
+Python (version 3.4 or above) - install dependencies with 
+
+    pip3 install -r requirements.txt
+
 : numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp
 
 
