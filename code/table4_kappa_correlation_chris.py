@@ -113,9 +113,9 @@ tab_reg5=re.sub(r'vanguard','Vanguard Holdings', tab_reg5)
 tab_reg5=re.sub(r'statestreet','State Street Holdings', tab_reg5)
 tab_reg5=re.sub(r'R\\sq','$R^2$', tab_reg5)
 tab_reg5=re.sub(r'N','$N$', tab_reg5)
-
+out_tab='\n'.join(tab_reg5.splitlines()[3:-2])
 
 # Display table and save
-print(tab_reg5)
+print(out_tab)
 with open(f_tab4,'w') as file:
-    file.write(tab_reg5)
+    file.write(out_tab)
