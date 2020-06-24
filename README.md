@@ -6,7 +6,7 @@ To download the repo simply type:
 
     git clone https://github.com/chrisconlon/CommonOwnerReplication
 
-You will need to download the following files (too large for GitHub):
+You will need to download the following files (too large for GitHub) and place them in data/public:
 1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
 2. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
 3. airlines.parquet: Scraped 13F Filings for firms within the airline industry
