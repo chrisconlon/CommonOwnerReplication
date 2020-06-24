@@ -1,19 +1,23 @@
 # Common Ownership in America: 1980-2017 - Backus, Conlon and Sinkinson
 
-## Before running code
 
-You will need to download the following files (too large for GitHub):
+## Before running code
+To download the repo simply type:
+
+    git clone https://github.com/chrisconlon/CommonOwnerReplication
+
+You will need to download the following files (too large for GitHub) and place them in data/public:
 1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
 2. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
 3. airlines.parquet: Scraped 13F Filings for firms within the airline industry
 
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
+### Downloading WRDS
+User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
 ## How to run code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately ten hours to run. Tables and figures will be produced as described below.
-
-You will need to provide your own WRDS account.
 
 ## File of origin for tables and figures
 
@@ -48,38 +52,50 @@ You will need to provide your own WRDS account.
 | Figure A6		| plots2_kappa_official.py 		|
 | Figure A7		| plots2_kappa_official.py 		|
 | Figure A8		| plots5_investor_similarity.py 	|
-| ----------------------|-------------------------------------- |
+
 
 
 ## Within-File Dependencies:
 1_Download_WRDS_Data.py: 
-	from wrds_downloads import clean_wrds, get_names, get_crosswalk, get_fundamentals, get_short_interest, get_segments, get_msf, get_s34
+    
+    from wrds_downloads import clean_wrds, get_names, get_crosswalk, get_fundamentals, get_short_interest, get_segments, get_msf, get_s34, 
 	pandas, out
 
 2_Process_WRDS_Data.py
-	from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals, construct_bus_segments, consolidate_mgrs, filter_sp, compute_betas, add_drops, process_scraped, blackrock_fix, add_permno, add_stock_splits, dedup_s34, combine_betas
+    
+    from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals, construct_bus_segments, consolidate_mgrs, filter_sp, compute_betas, add_drops, process_scraped, blackrock_fix, add_permno, add_stock_splits, dedup_s34, combine_betas
+    from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock, check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
 
-	from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock, check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
 3_Calculate_Kappas.py
-	from kappas import process_beta, beta_to_kappa, kappa_in_out, calc_chhis, fix_scrape_cols
-	from investors import compute_investor_info, calc_big4
-	from utilities/quantiles import weighted_quantile
+     
+    from kappas import process_beta, beta_to_kappa, kappa_in_out, calc_chhis, fix_scrape_cols
+    from investors import compute_investor_info, calc_big4
+    from utilities/quantiles import weighted_quantile
 
 
 plots3_big_three_four.py: 
-from kappas import process_beta
-from investors import calc_big4
+
+    from kappas import process_beta
+    from investors import calc_big4
 
 plots5_airlines_cereal.py: 
-from kappas import do_one_period
-from utilities.groupby import applyParallel
 
-plots9_blackrock_vanguard.py: from kappas import beta_to_kappa_merger_breakup
+    from kappas import do_one_period
+    from utilities.groupby import applyParallel
 
-plots10_kappa_comparison_appendix.py: from utilities.matlab_util import coalesce
+plots9_blackrock_vanguard.py: 
+
+    from kappas import beta_to_kappa_merger_breakup
+
+plots10_kappa_comparison_appendix.py: 
+
+    from utilities.matlab_util import coalesce
 
 ## Python  dependencies
-Python (version 3.4 or above) - install dependencies with `pip3 install -r requirements.txt`
+Python (version 3.4 or above) - install dependencies with 
+
+    pip3 install -r requirements.txt
+
 : numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp
 
 
@@ -94,5 +110,3 @@ data/public:
 
 Plus put the three downloaded files in this directory.
 
-## Downloading WRDS
-User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
