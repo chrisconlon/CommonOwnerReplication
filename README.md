@@ -11,6 +11,8 @@ You will need to download the following files (too large for GitHub) and place t
 2. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
 3. airlines.parquet: Scraped 13F Filings for firms within the airline industry
 
+You can download those directly from https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fzr3upim0x8md4qa%2FArchive.zip%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNHatIc3bGr68gGCKovuu4fXrCNAMw
+
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
 ### Downloading WRDS
