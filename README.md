@@ -52,7 +52,7 @@ Change to the directory containing this file and run "./run_all.sh" on the termi
 | Figure A6		| plots2_kappa_official.py 		|
 | Figure A7		| plots2_kappa_official.py 		|
 | Figure A8		| plots5_investor_similarity.py 	|
-| ----------------------|-------------------------------------- |
+
 
 
 ## Within-File Dependencies:
