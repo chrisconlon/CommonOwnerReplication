@@ -17,7 +17,7 @@ from statsmodels.iolib.summary2 import summary_col
 f_regression = derived_dir / 'regression_data.parquet'
 
 # Output
-f_tab4 = tab_dir   /'tab4.tex'
+f_tab4 = tab_dir   /'table4.tex'
 
 # Read data
 cols=['from','to','quarter','kappa','retail_share','market_cap','marginsq', 'normalized_l2','big3','beta_BlackRock', 'beta_Vanguard', 'beta_StateStreet']
@@ -56,6 +56,14 @@ reg2 = smf.ols(formula = 'kappa ~ retail_share + lcap + marginsq + normalized_l2
 reg3 = smf.ols(formula = 'kappa ~ retail_share + lcap + marginsq + big3 + normalized_l2', data = pd_vars).fit()
 reg4 = smf.ols(formula = 'kappa ~ retail_share + lcap + marginsq + normalized_l2 + blackrock + vanguard + statestreet', data = pd_vars).fit()
 
+# Adjust R^2 for the FE
+def rsq_update(reg):
+    reg.rsquared=np.var(reg.predict()+(df2['kappa'].values-resid_pa[:,0]))/np.var(df2['kappa'])
+    return
+for r in [reg1,reg2,reg3,reg4]:
+    rsq_update(r)
+
+
 # Print Output
 info_dict={'R\sq' : lambda x: f"{x.rsquared:.4f}",
            'N' : lambda x: f"{int(x.nobs):d}"}
@@ -68,64 +76,29 @@ dfoutput = summary_col(results=[reg1,reg2,reg3,reg4],
                                          '(3)',
                                          '(4)'],
                             info_dict=info_dict,
-                            regressor_order=['retail_share',
-                                             'lcap',
-                                             'marginsq',
-                                             'big3',
-                                             'normalized_l2',
-                                             'blackrock',
-                                             'vanguard',
-                                             'statestreet'
+                            regressor_order=[('retail_share','Retail Share'),
+                                             ('lcap','Log(Market Cap)'),
+                                             ('marginsq','Operating Margin'),
+                                             ('normalized_l2','Indexing'),
+                                             ('big3','Big 3 Share'),
+                                             ('blackrock','BlackRock'),
+                                             ('vanguard','Vanguard')
+                                             ('statestreet','StateStreet')
                                              ],
                              drop_omitted=True)
 
-tab_reg = dfoutput.as_latex()
+# Clean up the TeX by hand for the table
+tab_reg2=re.sub(r'\*\*\*', '*', dfoutput.as_latex())
+tab_reg3=re.sub(r'hline','toprule', tab_reg2,count=1)
+tab_reg4=re.sub(r'hline','bottomrule', tab_reg3,count=1)
+tab_reg5=re.sub(r'retail\\_share','Retail Share', tab_reg4)
+
+
+# Display table and save
+print(tab_reg5)
 with open(f_tab4,'w') as file:
-    file.write(tab_reg)
-    
-print(dfoutput)
-#print(tab_reg)
-# 
-
-# %%
-# Recalculating the R-squared
-## SSRES: sum of errors of 
-## SS
-
-rsq = np.zeros((4,1))
-
-# if the dataset is pd_vars, I get the r-squared from dfoutput
-# so how can i incoroporate the fixed effects?
-## reg
-y = df_merge_nas[['kappa']]
-
-x1 = df_merge_nas[['retail_share', 'lcap', 'marginsq', 'big3']]
-x2 = df_merge_nas[['retail_share', 'lcap', 'marginsq' ,'normalized_l2']]
-x3 = df_merge_nas[['retail_share', 'lcap', 'marginsq' ,'big3', 'normalized_l2']]
-x4 = df_merge_nas[['retail_share', 'lcap', 'marginsq' ,
-              'normalized_l2','blackrock', 'vanguard', 'statestreet']]
-
-
-
-def rsq_calc(reg, x, y):
-    yhat = reg.predict(x)
-    yhat = pd.DataFrame(yhat.copy())
-    df_rsq = pd.DataFrame(y.copy())
-    df_rsq['yhat'] = yhat
-    df_rsq.columns = ['y', 'yhat']
-    
-    df_rsq['diff'] = (df_rsq['y'] - df_rsq['yhat'])
-    df_rsq['mdiff'] = (df_rsq['y'] - df_rsq['y'].mean())
-
-    df_rsq['diffsq'] = df_rsq['diff']*df_rsq['diff']
-    df_rsq['mdiffsq']  = df_rsq['mdiff']*df_rsq['mdiff']
-    ssres = df_rsq['diffsq'].sum()
-    sstot = df_rsq['mdiffsq'].sum()
-    return 1 - ssres/sstot
+    file.write(tab_reg5)
     
 
-rsq[0] = rsq_calc(reg1, x1, y)
-rsq[1] = rsq_calc(reg2, x2, y)
-rsq[2] = rsq_calc(reg3, x3, y)
-rsq[3] = rsq_calc(reg4, x4, y)
+
 
