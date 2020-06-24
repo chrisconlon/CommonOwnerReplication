@@ -43,5 +43,5 @@ python plots11_profit_simulations.py
 # table creating block
 python table3_variance_decomp.py
 
-#python table4_kappa_correlations.py
+python table4_kappa_correlation.py
 
