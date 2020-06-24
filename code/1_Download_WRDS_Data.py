@@ -92,8 +92,6 @@ s34_data = get_s34(db,all_cusips)
 s34_data.to_parquet(f_raw_s34,compression='brotli')
 
 
-## CC: This took me < 1 min -- are you sure it wasn't block above?
-## NOTE! the next block can take about 3.5 hours!
 mgr_list=s34_data.groupby(['mgrno'])['mgrname'].agg(pd.Series.mode).reset_index()
 mgr_list['mgrname']=mgr_list['mgrname'].astype(str)
 mgr_list.to_parquet(f_managers,compression='brotli')
@@ -105,5 +103,3 @@ df_m.to_parquet(f_managers_all,compression='brotli')
 
 names=db.get_table('crsp','stocknames')
 names.to_parquet(wrds_dir / 'all_names.parquet')
-
-print(len(all_cusips))
