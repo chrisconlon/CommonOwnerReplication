@@ -4,11 +4,11 @@ from our_plot_config import raw_dir, wrds_dir, derived_dir
 import pandas as pd
 
 from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals 
-from wrds_cleaning import construct_bus_segments, consolidate_mgrs, filter_sp, 
+from wrds_cleaning import construct_bus_segments, consolidate_mgrs, filter_sp
 from wrds_cleaning import compute_betas, add_drops, process_scraped, blackrock_fix
 from wrds_cleaning import  add_permno, add_stock_splits, dedup_s34, combine_betas
 
-from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock, 
+from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock
 from wrds_checks import check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
 
 
