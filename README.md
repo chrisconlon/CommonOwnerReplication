@@ -13,7 +13,7 @@ You will need to download the following files (too large for GitHub) and place t
 
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
-# Downloading WRDS
+### Downloading WRDS
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
 ## How to run code
