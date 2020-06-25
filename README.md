@@ -15,6 +15,10 @@ You can download those directly from https://www.google.com/url?q=https%3A%2F%2F
 
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
+### Dataset Size and Memory
+1. We recommend that you have at least 64GB of RAM available.
+2. All of the datasets saved will take up about 12 GB of drive space.
+
 ### Downloading WRDS
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 

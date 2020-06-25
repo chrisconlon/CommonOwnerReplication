@@ -126,8 +126,10 @@ dmypy.json
 
 # Project Data files
 *.parquet
+*.xlsx
 
 # Tex Files
 *.tex
 *.aux
 *.log
+
