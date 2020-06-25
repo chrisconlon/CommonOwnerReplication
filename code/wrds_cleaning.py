@@ -82,8 +82,6 @@ def add_drops(df,f_drops,df_names2):
     df[['permno_drop','sharecode_drop']]=df[['permno_drop','sharecode_drop']].fillna(False)
     return df[keep_cols]
 
-
-
 #
 # Use MSF data to add a stock split dummy to each 13-F filing date
 #
@@ -179,8 +177,6 @@ def compute_betas(df,df_msf):
     y=alt_betas(y)
     return y[['permno','mgrno','quarter','shares','shares_outstanding','price','beta','beta_sole','beta_soleshared','sole','shared','no']]
 
-
-## CRM Update: stata to parquet
 def process_scraped(fn_scrape,fn_big4):
     df = pd.read_parquet(fn_scrape)
     df['quarter']=pd.to_datetime(df.rdate, format='%Y%m%d')
