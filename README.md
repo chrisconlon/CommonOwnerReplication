@@ -1,4 +1,5 @@
-# Common Ownership in America: 1980-2017 - Backus, Conlon and Sinkinson
+# Common Ownership in America: 1980-2017
+# Backus, Conlon and Sinkinson (2020)
 
 
 ## Before running code
