@@ -1,12 +1,10 @@
-
-
 from our_plot_config import raw_dir, wrds_dir, derived_dir, checks_dir
 import pandas as pd
 
-from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals 
-from wrds_cleaning import construct_bus_segments, consolidate_mgrs, filter_sp
+from wrds_cleaning import expand_names, make_cusip_list, construct_fundamentals, get_sp_quarters, read_s34
+from wrds_cleaning import construct_bus_segments, consolidate_mgrs, filter_s34
 from wrds_cleaning import compute_betas, add_drops, process_scraped, blackrock_fix
-from wrds_cleaning import  add_permno, add_stock_splits, dedup_s34, combine_betas
+from wrds_cleaning import add_stock_splits, dedup_s34, combine_betas
 
 from wrds_checks import check_bigbeta, check_s34, check_names, check_blackrock
 from wrds_checks import check_s34_coverage, check_multiple_cusip, check_fundamental_coverage
@@ -45,7 +43,6 @@ df_sp500 = pd.read_parquet(f_splist)
 df_names = pd.read_parquet(f_crsp_names)
 df_msf2  = pd.read_parquet(f_msf_data)
 df_short = pd.read_parquet(f_short)
-raw_s34  = read_s34(f_raw_s34)
 
 ## Match the names file against the S&P list and expand to quarters
 df_names2 =expand_names(df_names,df_sp500)
@@ -58,6 +55,9 @@ df_fund=construct_fundamentals(pd.read_parquet(f_fundamentals),df_names2)
 df_bus=construct_bus_segments(pd.read_parquet(f_segments),df_sp500)
 df_fund2=pd.merge(df_fund,df_bus,on=['permno','quarter'],how='outer')
 df_fund2.to_parquet(f_comp_info,compression='brotli')
+
+# List of S&P permo,cusip,quarters
+sp_df=get_sp_quarters(df_sp500,cusip_list)
 
 
 # ### Merge and  Drops ~ 5m
@@ -74,11 +74,11 @@ df_fund2.to_parquet(f_comp_info,compression='brotli')
 # - Calculate $\beta_{fs}$ for each quarter in LONG format.
 # - Add possible drops:  by permno (dual class shares, ADR's,etc.), share class (ADR's, REITs,etc.)
 
-
 ## Process Thomson-Reuters $\beta$
 # this needs about 20 GB of RAM
 # 1. Apply fixes and merges described above
-s34_data=filter_sp(add_permno(blackrock_fix(raw_s34),cusip_list),df_sp500)
+
+s34_data=filter_s34(read_s34(f_raw_s34),sp_df)
 main_df=consolidate_mgrs(dedup_s34(add_stock_splits(s34_data,df_msf2)),f_mgr_consolidations)
 df1=compute_betas(main_df,df_msf2)
 df1=add_drops(df1,f_permno_drops,df_names2)

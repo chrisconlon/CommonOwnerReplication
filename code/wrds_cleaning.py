@@ -29,25 +29,27 @@ def make_cusip_list(df_names):
 # - df is always the S-34 data
 # NB: edited this to include Barclays per Mike's note on 2004 -- MRB
 
+def blackrock_fix(df):
+    # Use Fdates instead of rdates for BlackRock Inc only
+    df['blackrock_fix']=False
+    df.loc[(df.mgrno.isin([7900,9385]))&(df.rdate!=df.fdate),'blackrock_fix'] =True
+    df.loc[(df.mgrno.isin([7900,9385])),'rdate'] = df.loc[(df.mgrno.isin([7900,9385])),'fdate']
+    return df
+
 def read_s34(fn):
     df=pd.read_parquet(fn,columns=['fdate', 'mgrno', 'rdate', 'cusip', 'shares', 'sole','shared', 'no', 'prc', 'shrout1','shrout2'])
     df['cusip']=df['cusip'].astype('category')
-    return df
+    return blackrock_fix(df)
 
-def blackrock_fix(df):
-    # Use Fdates instead of rdates for BlackRock Inc only
-    df.loc[(df.mgrno.isin([7900,9385]))&(df.rdate!=df.fdate),'blackrock_fix'] =1
-    df.loc[(df.mgrno.isin([7900,9385])),'rdate'] = df.loc[(df.mgrno.isin([7900,9385])),'fdate']
-    df['blackrock_fix'].fillna(0,inplace=True)
-    return df
+# Merge to get only the Permo Quarters for S&P 500
+def filter_s34(df,df_sp):
+    return pd.merge(df,df_sp,left_on=['cusip','rdate'],right_on=['cusip','qdate'],how='inner').drop(columns=['qdate'])
 
-def add_permno(df,cusip_list):
-    out_df=pd.merge(df,cusip_list,on='cusip',how='left')
-    unmatched=out_df.permno.isnull()
-    print ("S34 Observations without a Permno: ", sum(unmatched))
-    if sum(unmatched)>0:
-        out_df[unmatched].to_excel(f_no_permnos)
-    return out_df
+def get_sp_quarters(df_sp500,cusip_list):
+    x=pd.merge(expand_splist(df_sp500),cusip_list,on=['permno'])
+    x['cusip']=x['cusip'].astype('category')
+    return x.dropna()
+
 
 ## Consolidate managers (various BlackRock entities, FMR, etc.)
 def consolidate_mgrs(main_df,f_consolidation):
@@ -80,11 +82,6 @@ def add_drops(df,f_drops,df_names2):
     df[['permno_drop','sharecode_drop']]=df[['permno_drop','sharecode_drop']].fillna(False)
     return df[keep_cols]
 
-# Use filter_df to drop observations that aren't in the S&P during that timespan
-#
-def filter_sp(df,filter_df):
-    tmp=pd.merge(df,filter_df,on='permno')
-    return tmp[(tmp.rdate>='1980-01-01') & (tmp['rdate'] <= tmp['ending'])& (tmp['rdate'] >= tmp['start'])].drop(columns=['start','ending'])
 
 
 #
