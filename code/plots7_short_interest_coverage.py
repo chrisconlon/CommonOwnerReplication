@@ -45,7 +45,7 @@ tmp['short_10']=tmp['short_pct']> 0.10
 tmp['short_20']=tmp['short_pct']> 0.20
 
 # %%
-tmp.groupby(['quarter'])['coverage','short_coverage'].sum().plot(figsize=(20,10),color=['navy','maroon'])
+tmp.groupby(['quarter'])[['coverage','short_coverage']].sum().plot(figsize=(20,10),color=['navy','maroon'])
 matplotlib.rc('xtick', labelsize=24) 
 matplotlib.rc('ytick', labelsize=24) 
 plt.legend(['Number of S&P 500 Firms in Sample','Number of S&P 500 Firms with Short Interest Data'])
@@ -54,7 +54,7 @@ plt.xlabel('')
 plt.ylim(0, 510)
 plt.savefig(fig_coverage,bbox_inches='tight')
 # %%
-ax=tmp.groupby(['quarter'])['short_1','short_2','short_5','short_10','short_20'].mean().plot(figsize=(20,10))
+ax=tmp.groupby(['quarter'])[['short_1','short_2','short_5','short_10','short_20']].mean().plot(figsize=(20,10))
 ax.set_ylim(0,1)
 matplotlib.rc('xtick', labelsize=24) 
 matplotlib.rc('ytick', labelsize=24) 

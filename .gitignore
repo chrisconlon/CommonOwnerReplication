@@ -127,9 +127,13 @@ dmypy.json
 # Project Data files
 *.parquet
 *.xlsx
+*.pickle
+markup-simulations.csv
 
 # Tex Files
 *.tex
 *.aux
 *.log
 
+# Figures
+*.pdf

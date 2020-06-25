@@ -50,7 +50,7 @@ df.loc[df.mgrno.isin(is_vanguard),'InvestorName']='Vanguard'
 # %%
 # ### Do the work, Make the Plot
 kappa_df=beta_to_kappa_merger_breakup(df)
-x=kappa_df[kappa_df['from'] != kappa_df['to']].groupby(['quarter'])['kappa','kappa_merger','kappa_breakup','kappa_drop'].mean()
+x=kappa_df[kappa_df['from'] != kappa_df['to']].groupby(['quarter'])[['kappa','kappa_merger','kappa_breakup','kappa_drop']].mean()
 
 # %%
 x.plot(figsize=(20,10),color=['black','navy','maroon','darkgreen'])
