@@ -49,6 +49,9 @@ total_dft.to_parquet(f_kappas_tr,compression='brotli')
 total_dfs.to_parquet(f_kappas_scrape,compression='brotli')
 final_df.to_parquet(f_kappas_combined,compression='brotli')
 
+# save some memory
+del total_dft, total_dfs, final_df
+
 # Investor Info: How indexed is each manager? (including big4 information)
 df_investor=compute_investor_info(df,f_big4)
 df_investor.to_parquet(f_investor_info,compression='brotli')
