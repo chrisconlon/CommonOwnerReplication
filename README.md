@@ -18,10 +18,11 @@ Please see https://sites.google.com/view/msinkinson/research/common-ownership-da
 
 ### Dataset Size and Memory
 1. We recommend that you have at least 64GB of RAM available.
-2. All of the datasets saved will take up about 12 GB of drive space.
+2. All of the datasets saved will take up about 14 GB of drive space.
 3. NumPy is used extensively for the calculations and is multithreaded (so more cores will help).
 4. The computation of the $\kappa_{fg}$ terms is parallelized quarter by quarter explicitly (so cores will help a lot here).
-5. Total runtime on a 2015 iMac with 64GB of RAM is around 5 hours.
+5. But most of the time spent is in merging and filtering data in pandas (more cores don't help much).
+5. Total runtime on a 2015 iMac with 64GB of RAM is around 3 hours.
 6. WRDS download time is about an hour (Depends on internet speed) and total download is > 10GB.
 
 ### Downloading WRDS
