@@ -98,7 +98,7 @@ dfs.to_parquet(f_betas_scraped,compression='brotli')
 # - Save the combined FrankenBeta file
 
 # use TR before cut-date and scraped data after
-df=combine_betas(df1,dfs,cut_dat e='2000-01-01')
+df=combine_betas(df1,dfs,cut_date='2000-01-01')
 df.to_parquet(f_frankenbetas,compression='brotli')
 
 ### Checks
