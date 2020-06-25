@@ -27,7 +27,7 @@ def beta_to_kappa(df):
 
     total_df=applyParallel(df.groupby(['quarter']), do_one_period)
     total_df2=applyParallel(df.groupby(['quarter']), do_one_l1)
-    total_df3=applyParallel(df[(df.quarter>='1999-01-01')].groupby(['quarter']), do_onetness)
+    total_df3=applyParallel(df[(df.quarter>='1999-01-01')].groupby(['quarter']), do_one_robustness)
 
     # merge and clean up missings
     total_df=pd.merge(total_df,total_df2,on=['quarter','from','to'],how='left').reset_index(drop=True)
