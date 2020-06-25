@@ -29,6 +29,11 @@ def make_cusip_list(df_names):
 # - df is always the S-34 data
 # NB: edited this to include Barclays per Mike's note on 2004 -- MRB
 
+def read_s34(fn):
+    df=pd.read_parquet(fn,columns=['fdate', 'mgrno', 'rdate', 'cusip', 'shares', 'sole','shared', 'no', 'prc', 'shrout1','shrout2'])
+    df['cusip']=df['cusip'].astype('category')
+    return df
+
 def blackrock_fix(df):
     # Use Fdates instead of rdates for BlackRock Inc only
     df.loc[(df.mgrno.isin([7900,9385]))&(df.rdate!=df.fdate),'blackrock_fix'] =1

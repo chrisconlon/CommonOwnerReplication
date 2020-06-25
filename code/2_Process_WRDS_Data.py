@@ -45,7 +45,7 @@ df_sp500 = pd.read_parquet(f_splist)
 df_names = pd.read_parquet(f_crsp_names)
 df_msf2  = pd.read_parquet(f_msf_data)
 df_short = pd.read_parquet(f_short)
-raw_s34  = pd.read_parquet(f_raw_s34)
+raw_s34  = read_s34(f_raw_s34)
 
 ## Match the names file against the S&P list and expand to quarters
 df_names2 =expand_names(df_names,df_sp500)

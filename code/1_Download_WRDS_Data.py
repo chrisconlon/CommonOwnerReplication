@@ -33,8 +33,9 @@ db = wrds.Connection()
 ## This block is < 1m
 df_sp500= clean_wrds(db.get_table('crsp','DSP500LIST'))
 df_sp500.to_parquet(f_splist)
+print("First File Done: WRDS connection is probably ok")
 
-print("First File Done")
+
 # Filter S&P List: Ignore pre-1980 components
 df_sp500=df_sp500[df_sp500.ending> '1979-12-31']
 
@@ -83,23 +84,26 @@ df_seg.to_parquet(f_segments,compression='brotli')
 df_msf2 = get_msf(db,all_permnos,False)
 df_msf2.to_parquet(f_msf_data,compression='brotli')
 
+
+# Get Managers and stock names
+df_m=db.get_table('tfn','s34type1')
+df_m.to_parquet(f_managers_all,compression='brotli')
+
+names=db.get_table('crsp','stocknames')
+names.to_parquet(wrds_dir / 'all_names.parquet')
+
 # #### Pull the S-34 Data -- This is SLOW don't re-run ~15m
 # - Only get for 8-digit CUSIPs in our S&P dataset
 # - This is VERY slow and around 5.5 GB (320MB on disk)
 # - Use this to get holdings for each 13-F investor (Don't trust self reported prices or shares outstanding)
 
+print("Starting s34 Download...")
 s34_data = get_s34(db,all_cusips)
 s34_data.to_parquet(f_raw_s34,compression='brotli')
+print("S34 Complete!")
 
 
+# unique list of manager names
 mgr_list=s34_data.groupby(['mgrno'])['mgrname'].agg(pd.Series.mode).reset_index()
 mgr_list['mgrname']=mgr_list['mgrname'].astype(str)
 mgr_list.to_parquet(f_managers,compression='brotli')
-
-
-df_m=db.get_table('tfn','s34type1')
-df_m.to_parquet(f_managers_all,compression='brotli')
-
-
-names=db.get_table('crsp','stocknames')
-names.to_parquet(wrds_dir / 'all_names.parquet')

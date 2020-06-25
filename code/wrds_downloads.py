@@ -60,10 +60,10 @@ def get_short_interest(db,crosswalk):
 
 ## Download the S-34 Dataset
 def get_s34(db, cusip_list):
-	fields=['fdate', 'mgrname', 'mgrno', 'rdate','cusip', 'shares', 'sole', 'shared', 'no', 'stkname', 'ticker', 'indcode', 'prc', 'shrout1','shrout2']
-	fields_str=', '.join(fields)
-	query = "select " + fields_str + " from tfn.s34 where rdate > '1979-12-31' and cusip in %s" % repr(tuple(map(str,cusip_list)))
-	return clean_wrds(db.raw_sql(query))
+    fields=['fdate', 'mgrname', 'mgrno', 'rdate','cusip', 'shares', 'sole', 'shared', 'no', 'stkname', 'ticker', 'indcode', 'prc', 'shrout1','shrout2']
+    fields_str=', '.join(fields)
+    query = "select " + fields_str + " from tfn.s34 where rdate > '1979-12-31' and cusip in %s" % repr(tuple(map(str,cusip_list)))
+    return clean_wrds(db.raw_sql(query))
 
 ## Download the business segments
 #  - merge against crosswalk to get Permno's
@@ -91,11 +91,14 @@ def clean_wrds(df):
     date_cols =['start','ending','namedt','nameenddt','st_date','end_date','date','altprcdt','fdate','rdate','linkdt','linkenddt','datadate','splitadjdate']
     my_intcols=[x for x in col_list if x in int_cols]
     my_datecols=[x for x in col_list if x in date_cols]
+
     if my_intcols:
             df.loc[:,my_intcols]=df.loc[:,my_intcols].astype(int)
     if date_cols:       
         df.loc[:, my_datecols] = df.loc[:, my_datecols].apply(lookup_dates,axis=0)
     return df
+
+
 ## Construct end of quarter date and take the last observation with group_id
 def convert_to_quarter(df,date_name,group_ids):
     df.sort_values(group_ids+[date_name])
