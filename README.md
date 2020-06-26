@@ -9,10 +9,8 @@ To download the repo simply type:
 
 You will need to download the following files (too large for GitHub) and place them in data/public:
 1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
-2. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
-3. airlines.parquet: Scraped 13F Filings for firms within the airline industry
 
-You can download those directly from https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fzr3upim0x8md4qa%2FArchive.zip%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNHatIc3bGr68gGCKovuu4fXrCNAMw
+You can download this directly from https://www.dropbox.com/s/wsoksbzg4tis90h/out_scrape.parquet?dl=0
 
 Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
 
@@ -119,6 +117,8 @@ data/public:
 2. permno_drops.csv: lists dropped permno IDs with reasons why they are dropped
 3. big4.csv: lists manager Numbers for Blackrock, Fidelity, State Street, and Vanguard
 4. DLE_markups_fig_v2.csv: markups from DeLoecker Eeckhout Unger (QJE 2020)
+5. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
+6. airlines.parquet: Scraped 13F Filings for firms within the airline industry
 
-Plus put the three downloaded files in this directory.
+Plus put the out_scrape.parquet downloaded file in this directory.
 
