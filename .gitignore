@@ -126,6 +126,9 @@ dmypy.json
 
 # Project Data files
 *.parquet
+!airlines.parquet
+!cereal.parquet
+
 *.xlsx
 *.pickle
 markup-simulations.csv
