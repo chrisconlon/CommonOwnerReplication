@@ -11,8 +11,6 @@ from our_plot_config import derived_dir, fig_dir, raw_dir, setplotstyle
 
 setplotstyle()
 
-
-from utilities.groupby import applyParallel
 from kappas import  do_one_period
 
 # %%
