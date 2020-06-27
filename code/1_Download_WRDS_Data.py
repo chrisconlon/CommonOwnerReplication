@@ -17,7 +17,7 @@ f_fundamentals = wrds_dir / 'fundamentals_data.parquet'
 f_segments = wrds_dir / 'wrds_segments.parquet'
 f_managers = wrds_dir / 'manager_list.parquet'
 f_managers_all = wrds_dir / 'manager_list_all.parquet'
-
+f_names = wrds_dir / 'all_names.parquet'
 
 # Pull the Data from WRDS ~20 min (ENTIRE FILE)
 # This file requires about 48GB of RAM available
@@ -91,7 +91,7 @@ df_m = db.get_table('tfn', 's34type1')
 df_m.to_parquet(f_managers_all, compression='brotli')
 
 names = db.get_table('crsp', 'stocknames')
-names.to_parquet(wrds_dir / 'all_names.parquet')
+names.to_parquet(f_names)
 
 # #### Pull the S-34 Data -- This is SLOW don't re-run ~15m
 # - Only get for 8-digit CUSIPs in our S&P dataset
