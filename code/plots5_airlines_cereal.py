@@ -38,10 +38,10 @@ fig_both = fig_dir /'figure16_airlines_cereal_banks.pdf'
 def process_df(fn):
     df=pd.read_parquet(fn)
     df['quarter']=pd.to_datetime(df.rdate, format='%Y%m%d')
-    total_df3=applyParallel(df[df.beta< 0.5].groupby(['quarter']), do_one_period)
+    total_df3=df[df.beta< 0.5].groupby(['quarter']).apply(do_one_period)
     total_df3=total_df3[total_df3['from']!=total_df3['to']]
-    return total_df3
-#
+    return total_df3.reset_index(drop=True)   
+
 
 
 df_cereal=process_df(f_cereal)
