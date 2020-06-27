@@ -28,7 +28,7 @@ Please see https://sites.google.com/view/msinkinson/research/common-ownership-da
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
 ## How to run code
-Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately ten hours to run. Tables and figures will be produced as described below.
+Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately 3-10 hours to run. Tables and figures will be produced as described below.
 
 ## File of origin for tables and figures
 
