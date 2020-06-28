@@ -88,7 +88,7 @@ def do_one_robustness(df):
 
 
 def beta_to_kappa_merger_breakup(df):
-    return applyParallel(df.groupby(['quarter']), do_one_merger_breakup)
+    return df.groupby(['quarter']).apply(do_one_merger_breakup).reset_index(drop=True)
 
 # handler for L1 Measure
 # input: long dataframe of Manager, Firm, Beta_fs
