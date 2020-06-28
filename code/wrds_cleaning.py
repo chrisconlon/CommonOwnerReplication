@@ -11,8 +11,6 @@ data = ['fdate', 'shares', 'prc', 'shrout1', 'shrout2', 'sole', 'shared', 'no']
 # Use CRSP names file to construct mapping from CUSIP/NCUSIP --> Permno
 # - Mapping should be N-->1 unique
 #
-
-
 def make_cusip_list(df_names):
     cusip_list = pd.concat([df_names[['ncusip', 'permno']].drop_duplicates().rename(columns={
                            'ncusip': 'cusip'}), df_names[['cusip', 'permno']].drop_duplicates()]).drop_duplicates()
@@ -31,8 +29,6 @@ def make_cusip_list(df_names):
 # This is S34 Data cleaning/merging
 # - df is always the S-34 data
 # NB: edited this to include Barclays per Mike's note on 2004 -- MRB
-
-
 def blackrock_fix(df):
     # Use Fdates instead of rdates for BlackRock Inc only
     df['blackrock_fix'] = False
@@ -275,8 +271,6 @@ def process_scraped(fn_scrape, fn_big4):
 
 # Compute the betas : shares / 1000 x Shares Outstanding
 # Compute sole+shared and sole as well (only valid post 99)
-
-
 def alt_betas(y):
     y['beta'] = y['shares'] / (1e3 * y['shares_outstanding'])
     y['beta_soleshared'] = (y['shares'] - y['no']) / \
@@ -286,8 +280,6 @@ def alt_betas(y):
     return y
 
 # Combine betas
-
-
 def combine_betas(df, dfs, cut_date='2000-01-01'):
     cols = df.columns
     return pd.concat([df[df.quarter <= cut_date], dfs.loc[dfs.quarter >

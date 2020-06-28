@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from utilities.matlab_util import matlab_sparse
-from utilities.groupby import applyParallel
 from sklearn.metrics.pairwise import cosine_similarity, manhattan_distances
 
 
@@ -18,7 +17,6 @@ def process_beta(fn):
     return df[(df.permno_drop == False) & (
         df.sharecode_drop == False) & (df.beta < 0.5)]
 
-
 # This is the main function
 def beta_to_kappa(df):
     df = df[(df.quarter >= '1980-01-01')]
@@ -27,20 +25,13 @@ def beta_to_kappa(df):
     df['mkt_cap'] = df['shares_outstanding'] * df['price']
     df_m = df.groupby(['permno', 'quarter'])['mkt_cap'].median()
 
-    total_df = applyParallel(df.groupby(['quarter']), do_one_period)
-    total_df2 = applyParallel(df.groupby(['quarter']), do_one_l1)
-    total_df3 = applyParallel(
-        df[(df.quarter >= '1999-01-01')].groupby(['quarter']), do_one_robustness)
+    total_df = df.groupby(['quarter']).apply(do_one_period)
+    total_df3 =  df[(df.quarter >= '1999-01-01')].groupby(['quarter']).apply(do_one_robustness)
 
     # merge and clean up missings
     total_df = pd.merge(
-        total_df, total_df2, on=[
-            'quarter', 'from', 'to'], how='left').reset_index(
-        drop=True)
-    total_df = pd.merge(
         total_df, total_df3, on=[
-            'quarter', 'from', 'to'], how='left').reset_index(
-        drop=True)
+            'quarter', 'from', 'to'], how='left')
     total_df[['kappa',
               'kappa_CLWY',
               'kappa_pow2',
@@ -59,9 +50,9 @@ def beta_to_kappa(df):
 
     # Add the market cap
     total_df = pd.merge(pd.merge(total_df,
-                                 df_m, left_on=['from', 'quarter'], right_on=['permno', 'quarter']),
+                        df_m, left_on=['from', 'quarter'], right_on=['permno', 'quarter']),
                         df_m, left_on=['to', 'quarter'], right_on=['permno', 'quarter']
-                        ).rename(columns={'mkt_cap_x': 'mkt_cap_from', 'mkt_cap_y': 'mkt_cap_to'})
+                        ).rename(columns={'mkt_cap_x': 'mkt_cap_from', 'mkt_cap_y': 'mkt_cap_to'}).reset_index()
 
     return total_df
 
@@ -81,31 +72,12 @@ def do_one_robustness(df):
     # kappa_drop=raw_kappa(betas_drop,betas_drop)
 
     idx = kappa_all.nonzero()
-    out_df = pd.DataFrame({'from': permno_keys[idx[0]], 'to': permno_keys[idx[1]], 'kappa_all': kappa_all[idx].flatten(),
+    return pd.DataFrame({'from': permno_keys[idx[0]], 'to': permno_keys[idx[1]], 'kappa_all': kappa_all[idx].flatten(),
                            'kappa_sole': kappa_sole[idx].flatten(), 'kappa_soleshared': kappa_soleshared[idx].flatten()})
-    out_df['quarter'] = df.quarter.iloc[0]
-    return out_df
 
 
 def beta_to_kappa_merger_breakup(df):
     return df.groupby(['quarter']).apply(do_one_merger_breakup).reset_index(drop=True)
-
-# handler for L1 Measure
-# input: long dataframe of Manager, Firm, Beta_fs
-# Output: long dataframe of Quarter, Firm_from, Firm_to, L1 Distance
-
-
-def do_one_l1(df):
-    [betas, mgr_keys, permno_keys] = matlab_sparse(
-        df.mgrno, df.permno, df.beta)
-    l1_measure = calc_l1_measure(betas)
-
-    idx = l1_measure.nonzero()
-    out_df = pd.DataFrame({'from': permno_keys[idx[0]],
-                           'to': permno_keys[idx[1]],
-                           'l1_measure': l1_measure[idx].flatten()})
-    out_df['quarter'] = df.quarter.iloc[0]
-    return out_df
 
 
 def do_one_merger_breakup(df2):
@@ -162,14 +134,13 @@ def do_one_period(df):
     kappa4 = calc_kappa(betas, 0.5)
     kappa5 = calc_kappa(betas, 'CLWY')
     cosine = cosine_similarity(betas.transpose())
+    # this is a bit slow
+    l1_measure = calc_l1_measure(betas)
 
     idx = kappa.nonzero()
-    out_df = pd.DataFrame({'from': permno_keys[idx[0]], 'to': permno_keys[idx[1]], 'kappa': kappa[idx].flatten(),
+    return pd.DataFrame({'from': permno_keys[idx[0]], 'to': permno_keys[idx[1]], 'kappa': kappa[idx].flatten(),
                            'kappa_pow2': kappa2[idx].flatten(), 'kappa_pow3': kappa3[idx].flatten(), 'kappa_sqrt': kappa4[idx].flatten(),
-                           'kappa_CLWY': kappa5[idx].flatten(), 'cosine': cosine[idx].flatten()})
-    out_df['quarter'] = df.quarter.iloc[0]
-    return out_df
-
+                           'kappa_CLWY': kappa5[idx].flatten(), 'cosine': cosine[idx].flatten(), 'l1_measure': l1_measure[idx].flatten()})
 
 # This does the work for L1 measure
 # Input beta: S x F matrix
@@ -190,11 +161,9 @@ def calc_l1_measure(betas):
 # This is the main function that takes a DF of betas and calculates all of
 # the CHHI measures
 
-
 def calc_chhis(df):
     # apply to multiple groups here
     df['inv_total'] = df.groupby(['mgrno', 'quarter'])['beta'].transform(sum)
-#    y=applyParallel(df[['permno','quarter','beta','inv_total']].groupby(['permno','quarter']), agg_chhi)
     y = df[['permno', 'quarter', 'beta', 'inv_total']].groupby(
         ['permno', 'quarter']).apply(agg_chhi)
     x = df.groupby(['permno', 'quarter']).agg(
@@ -202,8 +171,6 @@ def calc_chhis(df):
     return pd.merge(x, y, left_index=True, right_index=True, how='outer')
 
 # this is unitary function that takes in a vector Beta_f that is S x 1
-
-
 def chhi(beta, power):
     gamma = (beta**power)
     # scalar adjustment factor
@@ -211,8 +178,6 @@ def chhi(beta, power):
     return (gamma**2).sum() * adj
 
 # This calculates all of the CHHI measures and returns a (horizontal) series
-
-
 def agg_chhi(x):
     out = [chhi(x['beta'], a) for a in [0.5, 1, 2, 3, 4]]
     tmp = x['beta'] / x['inv_total']
@@ -256,6 +221,7 @@ def calc_kappa(betas, gamma_type='default'):
     return raw_kappa(betas, gamma)
 
 
+# This is the ratio of inner products for kappas
 def raw_kappa(betas, gamma):
     # F x F matrix
     numer = gamma.T @ betas

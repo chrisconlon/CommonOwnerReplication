@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 def regression_merge(df_kappas, df_firm):
     firm_cols = ['permno', 'quarter', 'saleq', 'cogsq', 'normalized_l2',
