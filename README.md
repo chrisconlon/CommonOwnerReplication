@@ -92,7 +92,6 @@ plots3_big_three_four.py:
 plots5_airlines_cereal.py: 
 
     kappas import
-    utilities.groupby import applyParallel
 
 plots9_blackrock_vanguard.py: 
 
