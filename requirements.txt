@@ -9,3 +9,4 @@ scikit-learn==0.23.1
 pyhdfe==0.1.0
 pyblp==0.10.0
 xlsxwriter==1.2.9
+statsmodels==0.11.1

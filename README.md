@@ -106,7 +106,7 @@ Python (version 3.4 or above) - install dependencies with
 
     pip3 install -r requirements.txt
 
-    numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp
+    numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp, statsmodels
 
 
 ## Files Provided
