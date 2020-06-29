@@ -30,6 +30,8 @@ User must provide (a WRDS account). User will be prompted for WRDS username and 
 ## How to run code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately 3-10 hours to run. Tables and figures will be produced as described below.
 
+Windows Users: instead use "run_all.bat" from the command prompt.
+
 ## File of origin for tables and figures
 
 | Table/Figure Number 	| Generating File			|
