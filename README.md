@@ -1,7 +1,7 @@
 # Common Ownership in America: 1980-2017
 Backus, Conlon and Sinkinson (2020)
 AEJMicro-2019-0389
-
+openicpsr-120083
 A copy of the paper is here: https://chrisconlon.github.io/site/common_owner.pdf
 
 ## Before running code
