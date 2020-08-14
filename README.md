@@ -4,7 +4,7 @@ AEJMicro-2019-0389
 openicpsr-120083
 A copy of the paper is here: https://chrisconlon.github.io/site/common_owner.pdf
 
-## Git Install Instructions
+### Git Install Instructions
 To download the repo simply type:
 
     git clone https://github.com/chrisconlon/CommonOwnerReplication
@@ -14,7 +14,7 @@ You will need to have the git large file storage extension installed. (Which you
 To install this extension follow the directions at:
 https://git-lfs.github.com
 
-## Open ICPSR Install Instructions
+### Open ICPSR Install Instructions
 1. Download and unzip the repository.
 2. All required files are included or are downloaded programatically from WRDS (see notes below).
 
@@ -171,7 +171,7 @@ and
 DOI (HERE)
 
 
-## Description of .parquet file format
+### Description of .parquet file format
 We use the parquet format for:
 - Most large data inputs (above)
 - Most intermediary datasets
