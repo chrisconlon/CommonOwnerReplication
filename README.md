@@ -153,22 +153,26 @@ De Loecker, Jan; Eeckhout, Jan; Unger, Gabriel, 2020,
 That replication package requires access to WRDS. A subset of the markups (and no additional data) are being made publicly available here.
 
 ### Scraped 13f filings
-The original data source are the publicly available SEC 13f filing data from EDGAR: https://www.sec.gov/edgar/searchedgar/companysearch.html
+The original source data are the publicly available SEC 13f filing data from EDGAR: https://www.sec.gov/edgar/searchedgar/companysearch.html
 
-Most users would access the Thomson-Reuters S34 database from WRDS. We've scraped the original source documents from EDGAR and compiled them into an easy to use format. Rather than provide the entire universe of 13f filings, for replication purchases we provided three smaller extracts as parquet files:
+Most users instead access the Thomson-Reuters S34 database from WRDS (as our script above does). We've also scraped the original source documents from EDGAR and compiled them into an easy to use format. We provide the entire universe of 13f filings as a separate dataset. For the purposes of replicating this paper, we use three smaller extracts as parquet files:
 
-5. cereal.parquet: Scraped 13F Filings for firms within the cereal industry (includes small cap)
-6. airlines.parquet: Scraped 13F Filings for firms within the airline industry (includes small cap)
-7. out_scrape.parquet: Scraped 13F Filings for LARGE cap firms from 1999-2017 (300MB).
+5. cereal.parquet: extract 13F Filings for firms within the cereal industry (includes small cap)
+6. airlines.parquet: extract 13F Filings for firms within the airline industry (includes small cap)
+7. out_scrape.parquet: extract 13F Filings for LARGE cap firms (a superset of the S&P 500) from 1999-2017 (300MB).
 
-These files constitute:
+Each file contains:
 - 13f filings going back to 1999 and end in late 2017 (Data period for this paper).
-- We've included files in the replication package here for convenience
-- Full scraped data and a detailed description of how extracts were created are available at
 
+The full set of scraped 13f filings and a detailed description of how extracts were created are available in two places:
+
+1. The live version of the 13f scraping project is here:
 https://sites.google.com/view/msinkinson/research/common-ownership-data
-and
-DOI (HERE)
+
+2. The permanent archived version (including these extracts) is available to the public at Harvard Dataverse (doi:10.7910/DVN/ZRH3EU):
+https://doi.org/10.7910/DVN/ZRH3EU
+
+Conlon, Christopher T; Sinkinson, Michael; Backus, Matthew, 2020, "Common Ownership Data: Scraped SEC form 13F filings for 1999-2017", https://doi.org/10.7910/DVN/ZRH3EU, Harvard Dataverse, V1. 
 
 
 ### Description of .parquet file format
