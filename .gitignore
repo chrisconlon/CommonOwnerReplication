@@ -140,5 +140,5 @@ markup-simulations.csv
 
 # Figures
 *.pdf
-.DS_Store
-.DS_Store
+*.DS_Store
+*/*.DS_Store
