@@ -28,6 +28,24 @@ Please see https://sites.google.com/view/msinkinson/research/common-ownership-da
 ### Downloading WRDS
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
+If you do not have API access, you will need to consult the WRDS_web_access.pdf instructions in this replication package.
+
+If you are running this on a batch job (not interactively) such as on a HPC cluster you will need to pre-enter your WRDS password by creating a pgpass file.
+
+As an example:
+`
+import wrds
+db = wrds.Connection(wrds_username='joe')
+db.create_pgpass_file()
+Copy
+`
+
+If you encounter a problem, it might be that your pgpass file is not accessible by your batch job.
+
+For more information please see: https://wrds-www.wharton.upenn.edu/pages/support/programming-wrds/programming-python/python-from-your-computer/
+for more details.
+
+
 ## How to run code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately 3-10 hours to run. Tables and figures will be produced as described below.
 
@@ -105,23 +123,49 @@ plots10_kappa_comparison_appendix.py:
     utilities.matlab_util
 
 ## Python  dependencies
-Python (version 3.4 or above) - install dependencies with 
+Python (version 3.8 or above) - install dependencies with 
 
     pip3 install -r requirements.txt
 
     numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp, statsmodels
 
 
-## Files Provided
+## Files Provided and Data Access Statements
+
+WRDS:
+The paper uses WRDS data. MATT WILL WRITE STUFF HERE.
+
 
 data/public:
+
+The below files are publicly available csv's constructed by the authors. These are drops, consolidations, and manager identifiers that are used in our project. They are distributed with this code package.
 
 1. manager_consolidations.csv: lists consolidated manager numbers: several manager actually correspond to one
 2. permno_drops.csv: lists dropped permno IDs with reasons why they are dropped
 3. big4.csv: lists manager Numbers for Blackrock, Fidelity, State Street, and Vanguard
-4. DLE_markups_fig_v2.csv: markups from DeLoecker Eeckhout Unger (QJE 2020)
+
+The markups from from DLEU 2020 can be reproduced by running the replication package:
+
+De Loecker, Jan; Eeckhout, Jan; Unger, Gabriel, 2020, 
+"Replication Data for: 'The Rise of Market Power and the Macroeconomic Implications'", https://doi.org/10.7910/DVN/5GH8XO, Harvard Dataverse, V1
+
+That replication package requires access to WRDS. A subset of the markups (and no additional data) are being made publicly available here.
+
+4. DLE_markups_fig_v2.csv: markups from Figure 10 of DeLoecker Eeckhout Unger (QJE 2020)
+
+
+The following files were constructed by the authors of this paper/replication package, and are publicly available as a separate data archive for other researchers. We've included those files in the replication package here for convenience, but the original versions and a detailed description of how they were constructed can be obtained at: 
+
+The original data source are the publicly available SEC 13f filing data from EDGAR: https://www.sec.gov/edgar/searchedgar/companysearch.html 
+
 5. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
 6. airlines.parquet: Scraped 13F Filings for firms within the airline industry
+7. out_scrape.parquet: Scraped 13F Filings for large cap firms
 
-Plus put the out_scrape.parquet downloaded file in this directory.
+## Description of .parquet file format
+
+Parquet files are compressed columnar storage. The storage method is stable and maintained by the Apache Foundation.
+https://parquet.apache.org/documentation/latest/
+
+They use the python package "pyarrow" to read them and the package "brotli" for compression.
 
