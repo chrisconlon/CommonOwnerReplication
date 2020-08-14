@@ -4,17 +4,19 @@ AEJMicro-2019-0389
 openicpsr-120083
 A copy of the paper is here: https://chrisconlon.github.io/site/common_owner.pdf
 
-## Before running code
+## Git Install Instructions
 To download the repo simply type:
 
     git clone https://github.com/chrisconlon/CommonOwnerReplication
 
-You will need to download the following files (too large for GitHub) and place them in data/public:
-1. out_scrape.parquet: Scraped 13F Filings for all high market cap firms
+You will need to have the git large file storage extension installed. (Which you probably do not).
 
-You can download this directly from https://www.dropbox.com/s/wsoksbzg4tis90h/out_scrape.parquet?dl=0
+To install this extension follow the directions at:
+https://git-lfs.github.com
 
-Please see https://sites.google.com/view/msinkinson/research/common-ownership-data for  more information.
+## Open ICPSR Install Instructions
+1. Download and unzip the repository.
+2. All required files are included or are downloaded programatically from WRDS (see notes below).
 
 ### Dataset Size and Memory
 1. We recommend that you have at least 64GB of RAM available.
@@ -25,7 +27,7 @@ Please see https://sites.google.com/view/msinkinson/research/common-ownership-da
 5. Total runtime on a 2015 iMac with 64GB of RAM is around 3 hours.
 6. WRDS download time is about an hour (Depends on internet speed) and total download is > 10GB.
 
-### Downloading WRDS
+### Downloading from WRDS
 User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
 If you do not have API access, you will need to consult the WRDS_web_access.pdf instructions in this replication package.
@@ -54,7 +56,7 @@ Windows Users: instead use "run_all.bat" from the command prompt.
 ## File of origin for tables and figures
 
 | Table/Figure Number 	| Generating File			|
-| ----------------------|-------------------------------------- |
+| --- |---|
 | Table 1		| (by hand)				|
 | Table 2		| (by hand)		 		|
 | Table 3		| table3_variance_decomp.py        	|
@@ -86,7 +88,6 @@ Windows Users: instead use "run_all.bat" from the command prompt.
 | Figure A8		| plots5_investor_similarity.py 	|
 
 
-
 ## Within-File Dependencies:
 1_Download_WRDS_Data.py: 
     
@@ -102,8 +103,7 @@ Windows Users: instead use "run_all.bat" from the command prompt.
     kappas
     investors
     firminfo
-    utilities/quantiles import weighted_quantile
-
+    utilities/quantiles
 
 plots3_big_three_four.py: 
 
@@ -112,15 +112,15 @@ plots3_big_three_four.py:
 
 plots5_airlines_cereal.py: 
 
-    kappas import
+    kappas
 
 plots9_blackrock_vanguard.py: 
 
-    kappas import beta_to_kappa_merger_breakup
+    kappas 
 
 plots10_kappa_comparison_appendix.py: 
 
-    utilities.matlab_util
+    utilities/matlab_util
 
 ## Python  dependencies
 Python (version 3.8 or above) - install dependencies with 
@@ -129,12 +129,10 @@ Python (version 3.8 or above) - install dependencies with
 
     numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp, statsmodels
 
-
 ## Files Provided and Data Access Statements
 
 WRDS:
 The paper uses WRDS data. MATT WILL WRITE STUFF HERE.
-
 
 data/public:
 
@@ -146,26 +144,41 @@ The below files are publicly available csv's constructed by the authors. These a
 
 The markups from from DLEU 2020 can be reproduced by running the replication package:
 
+### DeLoecker Eeckhout Unger Markups
+4. DLE_markups_fig_v2.csv: markups from Figure 10 of DeLoecker Eeckhout Unger (QJE 2020)
+
 De Loecker, Jan; Eeckhout, Jan; Unger, Gabriel, 2020, 
 "Replication Data for: 'The Rise of Market Power and the Macroeconomic Implications'", https://doi.org/10.7910/DVN/5GH8XO, Harvard Dataverse, V1
 
 That replication package requires access to WRDS. A subset of the markups (and no additional data) are being made publicly available here.
 
-4. DLE_markups_fig_v2.csv: markups from Figure 10 of DeLoecker Eeckhout Unger (QJE 2020)
+### Scraped 13f filings
+The original data source are the publicly available SEC 13f filing data from EDGAR: https://www.sec.gov/edgar/searchedgar/companysearch.html
 
+Most users would access the Thomson-Reuters S34 database from WRDS. We've scraped the original source documents from EDGAR and compiled them into an easy to use format. Rather than provide the entire universe of 13f filings, for replication purchases we provided three smaller extracts as parquet files:
 
-The following files were constructed by the authors of this paper/replication package, and are publicly available as a separate data archive for other researchers. We've included those files in the replication package here for convenience, but the original versions and a detailed description of how they were constructed can be obtained at: 
+5. cereal.parquet: Scraped 13F Filings for firms within the cereal industry (includes small cap)
+6. airlines.parquet: Scraped 13F Filings for firms within the airline industry (includes small cap)
+7. out_scrape.parquet: Scraped 13F Filings for LARGE cap firms from 1999-2017 (300MB).
 
-The original data source are the publicly available SEC 13f filing data from EDGAR: https://www.sec.gov/edgar/searchedgar/companysearch.html 
+These files constitute:
+- 13f filings going back to 1999 and end in late 2017 (Data period for this paper).
+- We've included files in the replication package here for convenience
+- Full scraped data and a detailed description of how extracts were created are available at
 
-5. cereal.parquet: Scraped 13F Filings for firms within the cereal industry
-6. airlines.parquet: Scraped 13F Filings for firms within the airline industry
-7. out_scrape.parquet: Scraped 13F Filings for large cap firms
+https://sites.google.com/view/msinkinson/research/common-ownership-data
+and
+DOI (HERE)
+
 
 ## Description of .parquet file format
+We use the parquet format for:
+- Most large data inputs (above)
+- Most intermediary datasets
 
-Parquet files are compressed columnar storage. The storage method is stable and maintained by the Apache Foundation.
+Parquet files are compressed columnar storage binaries that are readable by several software packages (R, Python, Stata, Julia, C++, etc.) and platforms. The goal of the parquet project is to maintain good performance for large datasets as well as interoperability.
+
+The storage method is stable and maintained by the Apache Foundation.
 https://parquet.apache.org/documentation/latest/
 
-They use the python package "pyarrow" to read them and the package "brotli" for compression.
-
+We use the python package "pyarrow" to read parquets and the package "brotli" for compression (listed in the requirements.txt).
