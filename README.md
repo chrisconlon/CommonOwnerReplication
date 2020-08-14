@@ -35,11 +35,11 @@ If you do not have API access, you will need to consult the WRDS_web_access.pdf 
 If you are running this on a batch job (not interactively) such as on a HPC cluster you will need to pre-enter your WRDS password by creating a pgpass file.
 
 As an example:
+
 `
-import wrds
-db = wrds.Connection(wrds_username='joe')
-db.create_pgpass_file()
-Copy
+    import wrds
+    db = wrds.Connection(wrds_username='joe')
+    db.create_pgpass_file()
 `
 
 If you encounter a problem, it might be that your pgpass file is not accessible by your batch job.
