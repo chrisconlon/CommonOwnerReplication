@@ -36,11 +36,11 @@ If you are running this on a batch job (not interactively) such as on a HPC clus
 
 As an example:
 
-`
+```
     import wrds
     db = wrds.Connection(wrds_username='joe')
     db.create_pgpass_file()
-`
+```
 
 If you encounter a problem, it might be that your pgpass file is not accessible by your batch job.
 
