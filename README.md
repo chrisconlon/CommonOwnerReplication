@@ -1,4 +1,4 @@
-# Common Ownership in America: 1980-2017
+# Replication Instructions for: Common Ownership in America: 1980-2017
 Backus, Conlon and Sinkinson (2020)
 AEJMicro-2019-0389
 openicpsr-120083
