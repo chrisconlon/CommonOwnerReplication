@@ -140,6 +140,7 @@ markup-simulations.csv
 
 # Figures
 *.pdf
+!README.pdf
 
 # Mac Garbage
 .DS_Store

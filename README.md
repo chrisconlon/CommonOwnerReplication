@@ -48,7 +48,7 @@ As an example:
 
 If you encounter a problem, it might be that your pgpass file is not accessible by your batch job.
 
-For more information please see: https://wrds-www.wharton.upenn.edu/pages/support/programming-wrds/programming-python/python-from-your-computer/
+For more information please see: [https://wrds-www.wharton.upenn.edu/pages/support/programming-wrds/programming-python/python-from-your-computer/](https://wrds-www.wharton.upenn.edu/pages/support/programming-wrds/programming-python/python-from-your-computer/)
 for more details.
 
 ### Python  dependencies
@@ -197,8 +197,7 @@ Each file contains:
 
 The full set of scraped 13f filings and a detailed description of how extracts were created are available in two places:
 
-1. The live version of the 13f scraping project is here:
-https://sites.google.com/view/msinkinson/research/common-ownership-data
+1. The live version of the 13f scraping project is [https://sites.google.com/view/msinkinson/research/common-ownership-data?](https://sites.google.com/view/msinkinson/research/common-ownership-data?)
 
 2. The permanent archived version (including these extracts) is available to the public at Harvard Dataverse (doi:10.7910/DVN/ZRH3EU):
 https://doi.org/10.7910/DVN/ZRH3EU
