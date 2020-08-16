@@ -5,8 +5,8 @@ import wrds
 from our_plot_config import wrds_dir
 from wrds_downloads import clean_wrds, get_names, get_crosswalk
 from wrds_downloads import get_fundamentals, get_short_interest
-
 from wrds_downloads import get_segments, get_msf, get_s34
+
 # raw data pulls -- save in "WRDS" directory
 f_raw_s34 = wrds_dir / 'raw_s34.parquet'
 f_splist = wrds_dir / 'sp500_list.parquet'
@@ -66,7 +66,7 @@ crosswalk = get_crosswalk(db, all_permnos)
 # - Just count the number of segments
 # - Add permnos to number of segments
 #
-# Pull the Crisp Price and Shares Oustanding MSF Data
+# Pull the CRSP Price and Shares Oustanding MSF Data
 # - Save to parquet (around 2MB compressed)
 # - Use this to get a single price, shares_oustanding for each security quarter
 

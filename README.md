@@ -4,7 +4,12 @@ AEJMicro-2019-0389
 openicpsr-120083
 A copy of the paper is here: https://chrisconlon.github.io/site/common_owner.pdf
 
-### Git Install Instructions
+
+### Open ICPSR Install Instructions
+1. Download and unzip the repository.
+2. All required files are included or are downloaded programatically from WRDS (see notes below).
+
+### Github Install Instructions
 To download the repo simply type:
 
     git clone https://github.com/chrisconlon/CommonOwnerReplication
@@ -13,10 +18,6 @@ You will need to have the git large file storage extension installed. (Which you
 
 To install this extension follow the directions at:
 https://git-lfs.github.com
-
-### Open ICPSR Install Instructions
-1. Download and unzip the repository.
-2. All required files are included or are downloaded programatically from WRDS (see notes below).
 
 ### Dataset Size and Memory
 1. We recommend that you have at least 64GB of RAM available.
@@ -28,9 +29,12 @@ https://git-lfs.github.com
 6. WRDS download time is about an hour (Depends on internet speed) and total download is > 10GB.
 
 ### Downloading from WRDS
-User must provide (a WRDS account). User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
+User must provide their own WRDS account. User will be prompted for WRDS username and password in file 1_Download_WRDS_Data.py.
 
-If you do not have API access, you will need to consult the WRDS_web_access.pdf instructions in this replication package.
+To request an account, please visit:
+https://wrds-www.wharton.upenn.edu/register/
+
+If you do not have API access, you will need to consult the wrds_constituents.pdf document for instructions on using the WRDS web interface. This is strongly NOT RECOMMENDED. Because you cannot apply complex filters to the SQL queries as we do programatically, you will also need much more disk space (on the order of a Terabyte to save the entire Thomson-Reuters s34 13f database.)
 
 If you are running this on a batch job (not interactively) such as on a HPC cluster you will need to pre-enter your WRDS password by creating a pgpass file.
 
@@ -47,11 +51,37 @@ If you encounter a problem, it might be that your pgpass file is not accessible 
 For more information please see: https://wrds-www.wharton.upenn.edu/pages/support/programming-wrds/programming-python/python-from-your-computer/
 for more details.
 
+### Python  dependencies
+Our run_all.sh bash script should install all of the required python dependencies (assuming python itself is installed correctly and you have necessary acces to install packages). 
 
-## How to run code
+To install those dependencies manually (such as on a shared server) you may need to do the following.
+
+Python (version 3.8 or above) - install dependencies with 
+
+    pip3 install -r requirements.txt
+
+    numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp, statsmodels
+
+We anticipate most users will be running this replication package from within an Anaconda environment. To avoid making changes to your base environment you will want to create a separate environment for this replication package. To do that
+
+```
+    conda create --name common_owner --file requirements.txt
+    conda activate common_owner
+```
+
+## How to run the code
 Change to the directory containing this file and run "./run_all.sh" on the terminal. The code should take approximately 3-10 hours to run. Tables and figures will be produced as described below.
 
+```
+    cd code
+    ./runall.sh
+```
+
+### Windows Warning
 Windows Users: instead use "run_all.bat" from the command prompt.
+
+There are known conflicts between Windows 10 and core Python DLL's in versions < 3.7.3. If you are running on Windows 10, all Python programs will run best with Python 3.8 or later (see: https://bugs.python.org/issue35797).  
+
 
 ## File of origin for tables and figures
 
@@ -122,18 +152,19 @@ plots10_kappa_comparison_appendix.py:
 
     utilities/matlab_util
 
-## Python  dependencies
-Python (version 3.8 or above) - install dependencies with 
-
-    pip3 install -r requirements.txt
-
-    numpy, pandas, matplotlib, pyarrow, brotli, seaborn, wrds, scikit-learn, pyhdfe, pyblp, statsmodels
 
 ## Files Provided and Data Access Statements
 
-WRDS:
-The paper uses WRDS data. MATT WILL WRITE STUFF HERE.
+### WRDS
 
+We use several data sources from WRDS. These are accessed programatically through the WRDS API and we are not able to include individual files in this replication package. (See terms: https://wrds-www.wharton.upenn.edu/users/tou/).
+
+They include:
+A. CRSP: data on securities prices and shares outstanding; list of S&P 500 constituents.
+B. Compustat: business fundamentals, short interest, business segment info.
+C. Thomson-Reuters: s34 database of 13f filings/ownership.
+
+### Author Constructed files
 data/public:
 
 The below files are publicly available csv's constructed by the authors. These are drops, consolidations, and manager identifiers that are used in our project. They are distributed with this code package.
@@ -177,7 +208,7 @@ Conlon, Christopher T; Sinkinson, Michael; Backus, Matthew, 2020, "Common Owners
 
 ### Description of .parquet file format
 We use the parquet format for:
-- Most large data inputs (above)
+- Large data inputs (above)
 - Most intermediary datasets
 
 Parquet files are compressed columnar storage binaries that are readable by several software packages (R, Python, Stata, Julia, C++, etc.) and platforms. The goal of the parquet project is to maintain good performance for large datasets as well as interoperability.
