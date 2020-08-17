@@ -141,6 +141,7 @@ markup-simulations.csv
 # Figures
 *.pdf
 !README.pdf
+!wrds_constituents.pdf
 
 # Mac Garbage
 .DS_Store
