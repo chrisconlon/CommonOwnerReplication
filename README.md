@@ -202,13 +202,14 @@ The full set of scraped 13f filings and a detailed description of how extracts w
 2. The permanent archived version (including these extracts) is available to the public at Harvard Dataverse (doi:10.7910/DVN/ZRH3EU):
 https://doi.org/10.7910/DVN/ZRH3EU
 
-Conlon, Christopher T; Sinkinson, Michael; Backus, Matthew, 2020, "Common Ownership Data: Scraped SEC form 13F filings for 1999-2017", https://doi.org/10.7910/DVN/ZRH3EU, Harvard Dataverse, V1. 
+Backus, Matthew; Conlon, Christopher T; Sinkinson, Michael; 2020, "Common Ownership Data: Scraped SEC form 13F filings for 1999-2017", https://doi.org/10.7910/DVN/ZRH3EU, Harvard Dataverse, V1.1
 
 
 ### Description of .parquet file format
 We use the parquet format for:
-- Large data inputs (above)
-- Most intermediary datasets
+
+-   Large data inputs (above)
+-   Most intermediary datasets
 
 Parquet files are compressed columnar storage binaries that are readable by several software packages (R, Python, Stata, Julia, C++, etc.) and platforms. The goal of the parquet project is to maintain good performance for large datasets as well as interoperability.
 
