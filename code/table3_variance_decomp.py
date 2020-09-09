@@ -28,9 +28,7 @@ df_kappas2 = pd.read_parquet(
     columns=[
         'from',
         'to',
-        'pair_fe',
         'quarter',
-        'quarter_fe',
         'kappa',
         'cosine'])
 
